@@ -17,24 +17,22 @@ class App extends Component {
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
     this.updatePlaylistName =this.updatePlaylistName.bind(this); //#58
-    this.savePlaylist = this.savePlaylist.bind();
+    this.savePlaylist = this.savePlaylist.bind(this);
     this.search = this.search.bind(this);
     
   }
   addTrack(track) {
-     console.log(this);
+     //console.log(this);
        if (this.state.playlistTracks.indexOf(track.id) === -1){
         this.state.playlistTracks.push(track);
           console.log(this.state.playlistTracks);
         this.setState({ playlistTracks: this.state.playlistTracks })
         }
-    console.log(this);
+    //console.log(this);
   } 
   removeTrack(track){
-    if (this.state.playlistTracks.indexOf(track.id) !== -1){
-      this.state.playlistTracks.pull(track);
-      this.setState({ playlistTracks: this.state.playlistTracks })
-      }
+    this.state.playlistTracks.pop(track);
+    this.setState({ playlistTracks: this.state.playlistTracks })
     console.log(this);
   }
 
@@ -43,21 +41,25 @@ class App extends Component {
   }
  
   savePlaylist() {
+    //console.log(this);
     const trackURIs = this.state.playlistTracks.map(track => track.uri);
-    console.log(trackURIs);
-    Spotify.savePlaylist(this.state.playlistName, trackURIs).then(results => {
+    //console.log(trackURIs);
+    Spotify.savePlaylist(this.state.playlistName, trackURIs)
+    .then(results => {
       this.setState({
         playlistName:'',
         playlistTracks: []
-      })
-    })
+      });
+    //console.log("saved");
+    });
   }
   
   search(searchTerm){
     Spotify.search(searchTerm).then(results => {
       this.setState({searchResults: results});
+      //console.log(results);
     })
-    console.log(this);
+    
    }
 
 //#58,#68
